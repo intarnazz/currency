@@ -4,17 +4,30 @@ import { onMounted, ref } from "vue";
 const API_KEY = "fca_live_INn8oonmjCvqkWaIfZgUSc7dBEfazBHAxrz8EKUC";
 const API_URL = "https://api.freecurrencyapi.com/v1/";
 const BASE_CURRENCY = "RUB";
+const DATE__HISTORICAL = "2022-01-01";
+const currenciesHistorocal = ref("");
 const userStatus = ref("");
 const currencies = ref("");
 const currenciesСoefficient = ref("");
 const err = ref(false);
 let exchangeСlculationResult = 0;
+let delHis = 0;
 
 onMounted(async () => {
   await fetch(`${API_URL}status?apikey=${API_KEY}`)
     .then((response) => response.json())
     .then((json) => {
       userStatus.value = json.quotas.month;
+    })
+    .catch((e) => {
+      err.value = true;
+    });
+  await fetch(
+    `${API_URL}historical?date=${DATE__HISTORICAL}&base_currency=${BASE_CURRENCY}&apikey=${API_KEY}`
+  )
+    .then((response) => response.json())
+    .then((json) => {
+      currenciesHistorocal.value = json.data[DATE__HISTORICAL];
     })
     .catch((e) => {
       err.value = true;
@@ -48,6 +61,11 @@ const exchangeСlculation = (key) => {
   }
   exchangeСlculationResult = (i / coefficient).toFixed(2);
   return i;
+};
+const deltaCurrencies = (actual, historocal) => {
+  console.log(actual, " - ", historocal);
+  delHis = (actual - historocal).toFixed(4);
+  return delHis;
 };
 </script>
 
@@ -89,8 +107,17 @@ const exchangeСlculation = (key) => {
         <div class="currencies__name">
           {{ value.name }}
         </div>
-        <div class="currencies__currencies-сoefficient">
-          {{ exchangeСlculation(key) }} - {{ key }}
+        <div
+          class="currencies__currencies-сoefficient rise"
+          :class="{
+            fall:
+              deltaCurrencies(
+                currenciesСoefficient[key],
+                currenciesHistorocal[key]
+              ) < 0,
+          }"
+        >
+          {{ exchangeСlculation(key) }} - {{ key }} ({{ delHis }})
         </div>
         <div class="currencies__currencies-сoefficient">
           {{ exchangeСlculationResult }} - RUB
