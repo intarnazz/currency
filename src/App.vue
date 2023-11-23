@@ -40,13 +40,13 @@ onMounted(async () => {
 });
 
 const exchangeСlculation = (key) => {
+  const coefficient = currenciesСoefficient.value[key];
   let i = 1;
-  exchangeСlculationResult = (i / currenciesСoefficient.value[key]).toFixed(2);
-  for (i = 1; exchangeСlculationResult < 1; i *= 10) {
-    exchangeСlculationResult = (i / currenciesСoefficient.value[key]).toFixed(
-      2
-    );
+
+  while (i / coefficient < 10) {
+    i *= 10;
   }
+  exchangeСlculationResult = (i / coefficient).toFixed(2);
   return i;
 };
 </script>
@@ -93,7 +93,7 @@ const exchangeСlculation = (key) => {
           {{ exchangeСlculation(key) }} - {{ key }}
         </div>
         <div class="currencies__currencies-сoefficient">
-          {{ exchangeСlculationResult }}
+          {{ exchangeСlculationResult }} - RUB
         </div>
       </div>
     </section>
