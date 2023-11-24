@@ -29,7 +29,7 @@ onMounted(async () => {
 <template>
   <div class="main">
     <section class="traid-section">
-      <div class="traid-section__set">
+      <div class="traid-section__box">
         <div class="traid-section__text">У меня есть</div>
         <ul class="traid-section__list">
           <li
@@ -39,14 +39,14 @@ onMounted(async () => {
           >
             {{ key }}
           </li>
-          <li>Выбор...</li>
+          <li class="traid-section__list-item">Выбор...</li>
         </ul>
-        <input type="num" />
+        <input type="number" />
       </div>
       <button class="traid-section__button">
         <span class="material-symbols-outlined"> swap_horiz </span>
       </button>
-      <div class="traid-section__get">
+      <div class="traid-section__box">
         <div class="traid-section__text">Хочу получить</div>
         <ul class="traid-section__list">
           <li
@@ -56,9 +56,9 @@ onMounted(async () => {
           >
             {{ key }}
           </li>
-          <li>Выбор...</li>
+          <li class="traid-section__list-item">Выбор...</li>
         </ul>
-        <input type="num" />
+        <input type="number" />
       </div>
     </section>
   </div>
@@ -70,5 +70,13 @@ onMounted(async () => {
   display: flex
   justify-content: space-between
   align-items: center
-  &__
+  &__box
+    display: flex
+    flex-direction: column
+    gap: 1em
+  &__list
+    display: flex
+  &__list-item
+    padding: .5em 1em
+    border: 1px $textColor solid
 </style>
