@@ -1,10 +1,4 @@
-$main: #242424
-$textColor: #fff
-$buttonBG: #1a1a1a
-$aColor: #646cff
-$aColorHover: #535bf2
-$ok: #84ff6b
-$err: #ff6b6b
+@import "../../sass/var.sass"
 
 *
     box-sizing: border-box
@@ -85,48 +79,7 @@ button:focus-visible
     padding: 1em 0
     max-width: 1440px
 
-.currencies
-    display: flex
-    flex-wrap: wrap
-    gap: 1em
-    &__item
-        display: flex
-        flex-direction: column
-        align-items: center
-        border: 1px $textColor solid
-        border-radius: 10px
-        width: 210px
-    &__currencies-сoefficient
-        display: flex
-        align-items: center
-
 .rise
     color: $ok
 .fall
     color: $err
-
-.all-currencies
-    position: relative
-    &__popup
-        width: 225px
-        height: 400px
-        display: flex
-        flex-wrap: wrap
-        flex-direction: column
-        gap: 1em
-        padding: 1em 
-
-    &__button
-        padding: 0
-        background: none
-    &__button:hover
-        color: $aColorHover
-
-.popup
-    position: absolute
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6)
-    background-color: $main
-    border-radius: 15px
-    top: 5.5dvh
-    &__close
-        display: none

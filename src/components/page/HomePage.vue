@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const API_KEY = import.meta.env.VITE_API_KEY
-const API_URL = import.meta.env.VITE_API_URL
-const DATE_HISTORICAL = import.meta.env.VITE_DATE_HISTORICAL
+const API_KEY = import.meta.env.VITE_API_KEY;
+const API_URL = import.meta.env.VITE_API_URL;
+const DATE_HISTORICAL = import.meta.env.VITE_DATE_HISTORICAL;
 const currenciesHistorocal = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencies = ref("");
 const currenciesСoefficient = ref("");
@@ -178,3 +178,47 @@ const baseCurrencyChange = (key) => {
     </section>
   </main>
 </template>
+
+<style lang="sass" scoped>
+@import "../../sass/var.sass"
+
+.currencies
+    display: flex
+    flex-wrap: wrap
+    gap: 1em
+    &__item
+        display: flex
+        flex-direction: column
+        align-items: center
+        border: 1px $textColor solid
+        border-radius: 10px
+        width: 210px
+    &__currencies-сoefficient
+        display: flex
+        align-items: center
+
+.all-currencies
+  position: relative
+  &__popup
+    width: 225px
+    height: 400px
+    display: flex
+    flex-wrap: wrap
+    flex-direction: column
+    gap: 1em
+    padding: 1em
+  &__button
+    padding: 0
+    background: none
+  &__button:hover
+    color: $aColorHover
+
+.popup
+    position: absolute
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6)
+    background-color: $main
+    border-radius: 15px
+    top: 5.5dvh
+    &__close
+        display: none
+</style>
