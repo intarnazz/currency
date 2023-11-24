@@ -4,7 +4,7 @@ $buttonBG: #1a1a1a
 $aColor: #646cff
 $aColorHover: #535bf2
 $ok: #84ff6b
-$err: $err
+$err: #ff6b6b
 
 *
     box-sizing: border-box
@@ -41,14 +41,13 @@ h1
 
 button
     border-radius: 8px
-    border: 1px solid transparent
+    border: none
     padding: 0.6em 1.2em
     font-size: 1em
     font-weight: 500
     font-family: inherit
     background-color: $buttonBG
     cursor: pointer
-    transition: border-color 0.25s
 
 button:hover
     border-color: $aColor
@@ -87,7 +86,6 @@ button:focus-visible
     max-width: 1440px
 
 .currencies
-    margin: auto
     display: flex
     flex-wrap: wrap
     gap: 1em
@@ -98,8 +96,35 @@ button:focus-visible
         border: 1px $textColor solid
         border-radius: 10px
         width: 210px
+    &__currencies-сoefficient
+        display: flex
+        align-items: center
+
 .rise
     color: $ok
 .fall
     color: $err
 
+.all-currencies
+    position: relative
+    &__popup
+        width: 225px
+        display: flex
+        flex-wrap: wrap
+        gap: 1em
+        padding: 1em 1em 1em 1.5em
+
+    &__button
+        padding: 0
+        background: none
+    &__button:hover
+        color: $aColorHover
+
+.popup
+    position: absolute
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6)
+    background-color: $main
+    border-radius: 15px
+    top: 5.5dvh
+    &__close
+        display: none

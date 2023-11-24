@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -38,14 +39,13 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
 
 button:hover {
@@ -94,7 +94,6 @@ button:focus-visible {
 }
 
 .currencies {
-  margin: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
@@ -107,6 +106,10 @@ button:focus-visible {
   border-radius: 10px;
   width: 210px;
 }
+.currencies__currencies-сoefficient {
+  display: flex;
+  align-items: center;
+}
 
 .rise {
   color: #84ff6b;
@@ -114,4 +117,33 @@ button:focus-visible {
 
 .fall {
   color: #ff6b6b;
+}
+
+.all-currencies {
+  position: relative;
+}
+.all-currencies__popup {
+  width: 225px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  padding: 1em 1em 1em 1.5em;
+}
+.all-currencies__button {
+  padding: 0;
+  background: none;
+}
+.all-currencies__button:hover {
+  color: #535bf2;
+}
+
+.popup {
+  position: absolute;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+  background-color: #242424;
+  border-radius: 15px;
+  top: 5.5dvh;
+}
+.popup__close {
+  display: none;
 }/*# sourceMappingURL=style.css.map */
