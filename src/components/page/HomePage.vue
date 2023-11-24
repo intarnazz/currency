@@ -20,9 +20,6 @@ onMounted(async () => {
     currenciesHistorocal.value = await historicalCurrencies();
     currencies.value = await actualCurrencies();
     currenciesСoefficient.value = await latestCurrencies();
-    console.log(currenciesHistorocal.value);
-    console.log(currencies.value);
-    console.log(currenciesСoefficient.value);
   } catch (e) {
     console.log(e);
   }
