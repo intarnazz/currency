@@ -124,10 +124,12 @@ button:focus-visible {
 }
 .all-currencies__popup {
   width: 225px;
+  height: 400px;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   gap: 1em;
-  padding: 1em 1em 1em 1.5em;
+  padding: 1em;
 }
 .all-currencies__button {
   padding: 0;
