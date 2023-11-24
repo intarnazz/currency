@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import {
+  historicalCurrencies,
+  actualCurrencies,
+  latestCurrencies,
+} from "../../api/api.js";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-const API_URL = import.meta.env.VITE_API_URL;
-const DATE_HISTORICAL = import.meta.env.VITE_DATE_HISTORICAL;
-const currenciesHistorocal = ref(import.meta.env.VITE_BASE_CURRENCY);
+const currenciesHistorocal = ref("");
 const currencies = ref("");
 const currenciesСoefficient = ref("");
 const filter = ref("");
@@ -13,58 +15,14 @@ const baseCurrencyClose = ref(true);
 const baseCurrency = ref("RUB");
 const deltaHisObg = ref({});
 
-function historicalCurrencies() {
-  fetch(
-    `${API_URL}historical?date=${DATE_HISTORICAL}&base_currency=${baseCurrency.value}&apikey=${API_KEY}`
-  )
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.message === "API rate limit exceeded for 'quota'") {
-        errTooManyRequests.value = true;
-      } else {
-        currenciesHistorocal.value = json.data[DATE_HISTORICAL];
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-}
-function actualCurrencies() {
-  fetch(`${API_URL}currencies?&apikey=${API_KEY}`)
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.message === "API rate limit exceeded for 'quota'") {
-        errTooManyRequests.value = true;
-      } else {
-        currencies.value = json.data;
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-}
-function latestCurrencies() {
-  fetch(
-    `${API_URL}latest?base_currency=${baseCurrency.value}&apikey=${API_KEY}`
-  )
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.message === "API rate limit exceeded for 'quota'") {
-        errTooManyRequests.value = true;
-      } else {
-        currenciesСoefficient.value = json.data;
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-}
-
 onMounted(async () => {
   try {
-    await historicalCurrencies();
-    await actualCurrencies();
-    await latestCurrencies();
+    currenciesHistorocal.value = await historicalCurrencies();
+    currencies.value = await actualCurrencies();
+    currenciesСoefficient.value = await latestCurrencies();
+    console.log(currenciesHistorocal.value);
+    console.log(currencies.value);
+    console.log(currenciesСoefficient.value);
   } catch (e) {
     console.log(e);
   }
@@ -94,11 +52,18 @@ const baseCurrencyEvent = () => {
     baseCurrencyClose.value = true;
   }
 };
-const baseCurrencyChange = (key) => {
+const baseCurrencyChange = async (key) => {
   baseCurrency.value = key;
-  historicalCurrencies();
-  actualCurrencies();
-  latestCurrencies();
+  try {
+    currenciesHistorocal.value = await historicalCurrencies(baseCurrency.value);
+    currencies.value = await actualCurrencies();
+    currenciesСoefficient.value = await latestCurrencies(baseCurrency.value);
+  } catch(e) {
+    console.log(e);
+  }
+  console.log(currenciesHistorocal.value);
+  console.log(currencies.value);
+  console.log(currenciesСoefficient.value);
 };
 </script>
 
