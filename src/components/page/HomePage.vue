@@ -8,7 +8,6 @@ const currenciesHistorocal = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencies = ref("");
 const currenciesСoefficient = ref("");
 const filter = ref("");
-const err = ref(false);
 const errTooManyRequests = ref(false);
 const baseCurrencyClose = ref(true);
 const baseCurrency = ref("RUB");
