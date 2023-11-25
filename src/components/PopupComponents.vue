@@ -3,6 +3,7 @@ import { defineProps, defineEmits  } from "vue";
 const props = defineProps(["currencies"]);
 const emits = defineEmits();
 
+
 const baseCurrencyChange = (key) => {
   emits("change-currency", key);
 };

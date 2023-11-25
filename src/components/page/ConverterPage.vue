@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { actualCurrencies, latestCurrencies } from "../../api/api.js";
-import PopupComponents from "../PopupComponents.vue";
+import CurrenciesPanel from "../CurrenciesPanel.vue";
 
 const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
 const currenciesСoefficient = ref("");
@@ -16,36 +16,11 @@ onMounted(async () => {
   try {
     currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
     console.log(currenciesСoefficient.value);
-    currenciesObj.value = await actualCurrencies();
-    currencies.value = Object.entries(currenciesObj.value);
-    for (let i of SELECTED_CURRENCIES) {
-      let rut = 0;
-      for (let j of currencies.value) {
-        const selectedIndex = j[0].indexOf(i);
-        if (j[0] === currencieActiv) {
-          currencieActiv.value = j[0];
-        }
-        if (j[0] === currencieConvert) {
-          currencieConvert.value = j[0];
-        }
-        if (selectedIndex > -1) {
-          currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
-        }
-        rut++;
-      }
-    }
   } catch (e) {
     console.log(e);
   }
 });
 
-const currencieActivchange = async (key) => {
-  currencieActiv.value = key;
-  currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
-};
-const currencieConvertchange = async (key) => {
-  currencieConvert.value = key;
-};
 const currenciesReverse = async () => {
   console.log("currenciesReverse");
   const save = currencieActiv.value;
@@ -53,29 +28,14 @@ const currenciesReverse = async () => {
   currencieConvert.value = save;
   currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
 };
-const CurrencyChange = async (key) => {
-  for (let i of currencies.value.slice(0, 4)) {
-    if (i[0] === key) {
-      currencieActiv.value = key;
-    }
-  }
-  let rut = 4
-  for (let i of currencies.value.slice(4)) {
-    if (i[0] === key) {
-      currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
-      currencieActiv.value = key;
-      currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
-    }
-    rut++
-  }
+
+const currencieConvertchange = async (key) => {
+  currencieConvert.value = key;
 };
-const choice = () => {
-  console.log("choice - ", popupClose.value);
-  if (popupClose.value) {
-    popupClose.value = false;
-  } else {
-    popupClose.value = true;
-  }
+
+const currencieActivchange = async (key) => {
+  currencieActiv.value = key;
+  currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
 };
 </script>
 
@@ -84,7 +44,7 @@ const choice = () => {
     <section class="traid-section">
       <div class="traid-section__box">
         <div class="traid-section__text">У меня есть</div>
-        <ul class="traid-section__list">
+        <!-- <ul class="traid-section__list">
           <li
             @click="currencieActivchange(key)"
             v-for="[key] in currencies.slice(0, 4)"
@@ -100,7 +60,11 @@ const choice = () => {
             :currencies="currenciesObj"
             :class="{ popup__close: popupClose }"
           />
-        </ul>
+        </ul> -->
+        <CurrenciesPanel
+          @change-currency="currencieActivchange"
+          :currencieActiv="currencieActiv"
+        />
         <div class="traid-section__input-wrapper">
           <input
             autofocus
@@ -120,7 +84,7 @@ const choice = () => {
       </button>
       <div class="traid-section__box">
         <div class="traid-section__text">Хочу получить</div>
-        <ul class="traid-section__list">
+        <!-- <ul class="traid-section__list">
           <li
             @click="currencieConvertchange(key)"
             v-for="[key] in currencies.slice(0, 4)"
@@ -131,7 +95,11 @@ const choice = () => {
             {{ key }}
           </li>
           <li class="traid-section__list-item">Выбор...</li>
-        </ul>
+        </ul> -->
+        <CurrenciesPanel
+          @change-currency="currencieConvertchange"
+          :currencieActiv="currencieActiv"
+        />
         <div class="traid-section__input-wrapper">
           <p class="traid-section__currency">
             {{ (iHave * currenciesСoefficient[currencieConvert]).toFixed(2) }}
