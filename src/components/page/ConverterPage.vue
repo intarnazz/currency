@@ -1,16 +1,12 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { actualCurrencies, latestCurrencies } from "../../api/api.js";
+import { latestCurrencies } from "../../api/api.js";
 import CurrenciesPanel from "../CurrenciesPanel.vue";
 
-const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
 const currenciesСoefficient = ref("");
-const currencies = ref("");
-const currenciesObj = ref("");
 const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencieConvert = ref("USD");
-const popupClose = ref(true);
 
 onMounted(async () => {
   try {
@@ -44,23 +40,6 @@ const currencieActivchange = async (key) => {
     <section class="traid-section">
       <div class="traid-section__box">
         <div class="traid-section__text">У меня есть</div>
-        <!-- <ul class="traid-section__list">
-          <li
-            @click="currencieActivchange(key)"
-            v-for="[key] in currencies.slice(0, 4)"
-            :key="key"
-            :class="{ focus: currencieActiv === key }"
-            class="traid-section__list-item"
-          >
-            {{ key }}
-          </li>
-          <li @click="choice()" class="traid-section__list-item">Выбор...</li>
-          <PopupComponents
-            @change-currency="CurrencyChange"
-            :currencies="currenciesObj"
-            :class="{ popup__close: popupClose }"
-          />
-        </ul> -->
         <CurrenciesPanel
           @change-currency="currencieActivchange"
           :currencieActiv="currencieActiv"
@@ -84,21 +63,9 @@ const currencieActivchange = async (key) => {
       </button>
       <div class="traid-section__box">
         <div class="traid-section__text">Хочу получить</div>
-        <!-- <ul class="traid-section__list">
-          <li
-            @click="currencieConvertchange(key)"
-            v-for="[key] in currencies.slice(0, 4)"
-            :key="key"
-            :class="{ focus: currencieConvert === key }"
-            class="traid-section__list-item"
-          >
-            {{ key }}
-          </li>
-          <li class="traid-section__list-item">Выбор...</li>
-        </ul> -->
         <CurrenciesPanel
           @change-currency="currencieConvertchange"
-          :currencieActiv="currencieActiv"
+          :currencieActiv="currencieConvert"
         />
         <div class="traid-section__input-wrapper">
           <p class="traid-section__currency">

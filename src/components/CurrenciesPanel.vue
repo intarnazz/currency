@@ -1,6 +1,6 @@
 <script setup>
 import PopupComponents from "./PopupComponents.vue";
-import { actualCurrencies, latestCurrencies } from "../api/api.js";
+import { actualCurrencies } from "../api/api.js";
 import { defineProps, defineEmits, ref, onMounted } from "vue";
 const props = defineProps(["currencieActiv"]);
 const emits = defineEmits();
@@ -12,7 +12,6 @@ const baseCurrencyChange = (key) => {
 };
 
 const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
-const currenciesСoefficient = ref("");
 const currencies = ref("");
 const currenciesObj = ref("");
 const popupClose = ref(true);
