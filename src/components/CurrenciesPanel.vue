@@ -1,7 +1,7 @@
 <script setup>
 import PopupComponents from "./PopupComponents.vue";
 import { actualCurrencies } from "../api/api.js";
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 const props = defineProps(["currencieActivProps"]);
 const emits = defineEmits();
 
@@ -64,6 +64,13 @@ const CurrencyChange = async (key) => {
     rut++;
   }
 };
+const ActivPropsEvent = () => {
+  CurrencyChange(props.currencieActivProps)
+};
+
+
+watch(() => props.currencieActivProps, ActivPropsEvent);
+
 </script>
 
 <template>
@@ -97,6 +104,7 @@ const CurrencyChange = async (key) => {
     flex-direction: column
     gap: 1em
   &__list
+    position: relative
     user-select: none
     display: flex
   &__list-item
@@ -116,8 +124,8 @@ const CurrencyChange = async (key) => {
     -webkit-appearance: none
 
 .popup
-  top: 30dvh
-  left: 191px
+  top: 50px
+  left: 120px
   &__close
     display: none
 .focus
