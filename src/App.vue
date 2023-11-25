@@ -20,9 +20,9 @@ onMounted(async () => {
 
 <template>
   <header class="header">
-    <div class="header__logo">
+    <div class="header__logo-wrapper">
       <RouterLink :to="{ name: 'Home' }">
-        <img src="./assets/img/logo.png" alt="Logo" />
+        <img class="header__logo" src="./assets/img/logo.png" alt="Logo" />
       </RouterLink>
     </div>
     <nav class="header__nav">

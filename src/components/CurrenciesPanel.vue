@@ -5,10 +5,9 @@ import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 const props = defineProps(["currencieActivProps"]);
 const emits = defineEmits();
 
-
 const baseCurrencyChange = (key) => {
-  currencieActiv.value = key
-  popupClose.value = true
+  currencieActiv.value = key;
+  popupClose.value = true;
   emits("change-currency", key);
 };
 
@@ -35,7 +34,7 @@ onMounted(async () => {
         rut++;
       }
     }
-    baseCurrencyChange(currencieActiv.value)
+    baseCurrencyChange(currencieActiv.value);
   } catch (e) {
     console.log(e);
   }
@@ -53,25 +52,23 @@ const choice = () => {
 const CurrencyChange = async (key) => {
   for (let i of currencies.value.slice(0, 4)) {
     if (i[0] === key) {
-      baseCurrencyChange(key)
+      baseCurrencyChange(key);
     }
   }
   let rut = 4;
   for (let i of currencies.value.slice(4)) {
     if (i[0] === key) {
       currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
-      baseCurrencyChange(key)
+      baseCurrencyChange(key);
     }
     rut++;
   }
 };
 const ActivPropsEvent = () => {
-  CurrencyChange(props.currencieActivProps)
+  CurrencyChange(props.currencieActivProps);
 };
 
-
 watch(() => props.currencieActivProps, ActivPropsEvent);
-
 </script>
 
 <template>
@@ -97,13 +94,6 @@ watch(() => props.currencieActivProps, ActivPropsEvent);
 <style lang="sass" scoped>
 @import "../sass/var.sass"
 .traid-section
-  display: flex
-  justify-content: space-between
-  align-items: center
-  &__box
-    display: flex
-    flex-direction: column
-    gap: 1em
   &__list
     position: relative
     user-select: none
@@ -115,14 +105,6 @@ watch(() => props.currencieActivProps, ActivPropsEvent);
     cursor: pointer
   &__list-item:hover
     background-color: $aColorHover
-  &__currency
-    background: none
-    border: none
-    font-size: 2em
-
-  &__currency:focus
-    outline: none
-    -webkit-appearance: none
 
 .popup
   top: 50px
@@ -131,4 +113,12 @@ watch(() => props.currencieActivProps, ActivPropsEvent);
     display: none
 .focus
   background-color: $aColorHover
+
+@media screen and (max-width: 350px)
+  .traid-section
+    &__list-item
+      padding: .3em
+  .popup
+    top: 5dvh
+    left: 5px
 </style>

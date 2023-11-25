@@ -1,92 +1,98 @@
 @import "./var.sass"
 
 *
-    box-sizing: border-box
+  box-sizing: border-box
 body
-    margin: auto
-    width: 90vw
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif
-    line-height: 1.5
-    font-weight: 400
+  margin: auto
+  width: 93vw
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif
+  line-height: 1.5
+  font-weight: 400
 
-    color-scheme: light dark
-    color: $textColor
-    background-color: $main
+  color-scheme: light dark
+  color: $textColor
+  background-color: $main
 
-    font-synthesis: none
-    text-rendering: optimizeLegibility
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
-    display: flex
-    justify-content: center
-    min-width: 320px
-    min-height: 100vh
+  font-synthesis: none
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  display: flex
+  justify-content: center
+  min-height: 100vh
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button
-    -webkit-appearance: none
-    margin: 0
+  -webkit-appearance: none
+  margin: 0
 
 a
-    font-weight: 500
-    color: $aColor
-    text-decoration: inherit
+  font-weight: 500
+  color: $aColor
+  text-decoration: inherit
 
 a:hover
-    color: $aColorHover
+  color: $aColorHover
 h1
-    font-size: 3.2em
-    line-height: 1.1
+  font-size: 3.2em
+  line-height: 1.1
 
 button
-    border-radius: 8px
-    border: none
-    padding: 0.6em 1.2em
-    font-size: 1em
-    font-weight: 500
-    font-family: inherit
-    background-color: $buttonBG
-    cursor: pointer
+  border-radius: 8px
+  border: none
+  padding: 0.6em 1.2em
+  font-size: 1em
+  font-weight: 500
+  font-family: inherit
+  background-color: $buttonBG
+  cursor: pointer
 
 button:hover
-    border-color: $aColor
+  border-color: $aColor
 
 .card
-    padding: 2em
+  padding: 2em
 
 .line
-    border-top: 1px $textColor solid
+  border-top: 1px $textColor solid
 
 .header
-    width: 90vw
+  width: 93vw
+  display: flex
+  justify-content: space-between
+  max-width: 1440px
+  padding: 1em 0
+  &__nav
     display: flex
-    justify-content: space-between
-    max-width: 1440px
-    padding: 1em 0
-    &__nav
-        display: flex
-        gap: 1em
-        justify-content: center
-    &__user-status
-        width: 221px
-        padding-left: 4em
-.user-status
-    display: flex
-    flex-direction: column
-    &__row
-        display: flex
-        gap: 1em
-        justify-content: space-between
-.main
-    display: flex
-    flex-direction: column
     gap: 1em
-    width: 90vw
-    max-width: 1440px
-    padding: 1em 0
-    max-width: 1440px
+    justify-content: center
+  &__user-status
+    width: 221px
+    padding-left: 4em
+.user-status
+  display: flex
+  flex-direction: column
+  &__row
+    display: flex
+    gap: 1em
+    justify-content: space-between
+.main
+  display: flex
+  flex-direction: column
+  gap: 1em
+  width: 93vw
+  max-width: 1440px
+  padding: 1em 0
+  max-width: 1440px
 
 .rise
-    color: $ok
+  color: $ok
 .fall
-    color: $err
+  color: $err
+
+@media screen and (max-width: 640px)
+  .header
+    align-items: center
+    flex-direction: column
+    &__logo
+      width: 155px

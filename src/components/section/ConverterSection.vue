@@ -7,42 +7,57 @@ const currenciesСoefficient = ref("");
 const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencieConvert = ref("USD");
+const tooManyRequests = ref(false)
 
-onMounted(async () => {
+
+const latestCurrenciesCol = async () => {
+  const res = await latestCurrencies(currencieActiv.value);
+  if(!res) {
+    tooManyRequests.value = true
+    return null
+  }
+  return res
+}
+
+onMounted( () => {
   try {
-    currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
+    currenciesСoefficient.value = latestCurrenciesCol();
     console.log(currenciesСoefficient.value);
   } catch (e) {
     console.log(e);
   }
 });
 
-const currenciesReverse = async () => {
+const currenciesReverse = () => {
   console.log("currenciesReverse");
   const save = currencieActiv.value;
   currencieActiv.value = currencieConvert.value;
   currencieConvert.value = save;
-  currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
+  currenciesСoefficient.value = latestCurrenciesCol();
 };
 
 const currencieConvertchange = async (key) => {
   currencieConvert.value = key;
 };
 
-const currencieActivchange = async (key) => {
+const currencieActivchange = (key) => {
   currencieActiv.value = key;
-  currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
+  currenciesСoefficient.value = latestCurrenciesCol();
 };
 </script>
 
 <template>
   <div class="main">
+    <div v-if="tooManyRequests" class="fall">
+      <i> Too Many Request! </i>
+    </div>
     <section class="traid-section">
       <div class="traid-section__box">
         <div class="traid-section__text">У меня есть</div>
         <CurrenciesPanel
           @change-currency="currencieActivchange"
           :currencieActivProps="currencieActiv"
+          class="popup_1"
         />
         <div class="traid-section__input-wrapper">
           <input
@@ -66,6 +81,7 @@ const currencieActivchange = async (key) => {
         <CurrenciesPanel
           @change-currency="currencieConvertchange"
           :currencieActivProps="currencieConvert"
+          class="popup_2"
         />
         <div class="traid-section__input-wrapper">
           <p class="traid-section__currency">
@@ -92,21 +108,11 @@ const currencieActivchange = async (key) => {
     display: flex
     flex-direction: column
     gap: 1em
-  &__list
-    user-select: none
-    display: flex
-  &__list-item
-    transition: .4s
-    padding: .5em 1em
-    border: 1px $textColor solid
-    cursor: pointer
-  &__list-item:hover
-    background-color: $aColorHover
   &__currency
     background: none
     border: none
     font-size: 2em
-
+    width: 200px
   &__currency:focus
     outline: none
     -webkit-appearance: none
@@ -114,8 +120,17 @@ const currencieActivchange = async (key) => {
 .popup
   top: 30dvh
   left: 191px
+  &_1
+    z-index: 2
+  &_2
+    z-index: 1
   &__close
     display: none
 .focus
   background-color: $aColorHover
+
+@media screen and (max-width: 780px)
+  .traid-section
+    gap: 1em
+    flex-direction: column
 </style>
