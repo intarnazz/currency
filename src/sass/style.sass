@@ -1,4 +1,4 @@
-@import "../../sass/var.sass"
+@import "./var.sass"
 
 *
     box-sizing: border-box
@@ -21,6 +21,11 @@ body
     justify-content: center
     min-width: 320px
     min-height: 100vh
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button
+    -webkit-appearance: none
+    margin: 0
 
 a
     font-weight: 500
@@ -46,10 +51,6 @@ button
 button:hover
     border-color: $aColor
 
-button:focus,
-button:focus-visible
-    outline: 4px auto -webkit-focus-ring-color
-
 .card
     padding: 2em
 
@@ -62,7 +63,14 @@ button:focus-visible
     justify-content: space-between
     max-width: 1440px
     padding: 1em 0
-
+    &__logo
+    &__nav
+        display: flex
+        gap: 1em
+        justify-content: center
+    &__user-status
+        width: 221px
+        padding-left: 4em
 .user-status
     display: flex
     flex-direction: column

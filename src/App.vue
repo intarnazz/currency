@@ -22,7 +22,7 @@ onMounted(async () => {
   <header class="header">
     <div class="header__logo">
       <RouterLink :to="{ name: 'Home' }">
-        <img src="" alt="Logo" />
+        <img src="./assets/img/logo.png" alt="Logo" />
       </RouterLink>
     </div>
     <nav class="header__nav">
@@ -46,3 +46,7 @@ onMounted(async () => {
   <hr />
   <RouterView />
 </template>
+
+<style lang="sass">
+
+</style>
