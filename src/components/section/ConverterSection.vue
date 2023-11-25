@@ -6,7 +6,7 @@ import CurrenciesPanel from "../CurrenciesPanel.vue";
 const currenciesСoefficient = ref("");
 const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
-const currencieConvert = ref("USD");
+const currencieConvert = ref(import.meta.env.VITE_SECOND_CURRENCY);
 const tooManyRequests = ref(false);
 
 const latestCurrenciesCol = async () => {
