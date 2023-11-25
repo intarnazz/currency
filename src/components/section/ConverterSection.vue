@@ -7,42 +7,42 @@ const currenciesСoefficient = ref("");
 const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencieConvert = ref("USD");
-const tooManyRequests = ref(false)
-
+const tooManyRequests = ref(false);
 
 const latestCurrenciesCol = async () => {
   const res = await latestCurrencies(currencieActiv.value);
-  if(!res) {
-    tooManyRequests.value = true
-    return null
+  if (!res) {
+    tooManyRequests.value = true;
+    return null;
   }
-  return res
-}
+  tooManyRequests.value = false;
+  return res;
+};
 
-onMounted( () => {
+onMounted(async () => {
   try {
-    currenciesСoefficient.value = latestCurrenciesCol();
-    console.log(currenciesСoefficient.value);
+    currenciesСoefficient.value = await latestCurrenciesCol();
+    console.log("latestCurrenciesCol", currenciesСoefficient.value);
   } catch (e) {
     console.log(e);
   }
 });
 
-const currenciesReverse = () => {
+const currenciesReverse = async () => {
   console.log("currenciesReverse");
   const save = currencieActiv.value;
   currencieActiv.value = currencieConvert.value;
   currencieConvert.value = save;
-  currenciesСoefficient.value = latestCurrenciesCol();
+  currenciesСoefficient.value = await latestCurrenciesCol();
 };
 
-const currencieConvertchange = async (key) => {
+const currencieConvertchange = (key) => {
   currencieConvert.value = key;
 };
 
-const currencieActivchange = (key) => {
+const currencieActivchange = async (key) => {
   currencieActiv.value = key;
-  currenciesСoefficient.value = latestCurrenciesCol();
+  currenciesСoefficient.value = await latestCurrenciesCol();
 };
 </script>
 

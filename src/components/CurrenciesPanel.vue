@@ -16,10 +16,21 @@ const currencies = ref("");
 const currenciesObj = ref("");
 const popupClose = ref(true);
 const currencieActiv = ref(props.currencieActivProps);
+const errTooManyRequests = ref(false);
+
+const actualCurrenciesCol = async () => {
+  const res = await actualCurrencies();
+  if (!res) {
+    errTooManyRequests.value = true;
+    return null;
+  }
+  errTooManyRequests.value = false;
+  return res;
+};
 
 onMounted(async () => {
   try {
-    currenciesObj.value = await actualCurrencies();
+    currenciesObj.value = await actualCurrenciesCol();
     currencies.value = Object.entries(currenciesObj.value);
     for (let i of SELECTED_CURRENCIES) {
       let rut = 0;

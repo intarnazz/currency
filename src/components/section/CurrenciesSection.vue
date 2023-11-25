@@ -16,21 +16,27 @@ const baseCurrencyClose = ref(true);
 const baseCurrency = ref("RUB");
 const deltaHisObg = ref({});
 
-onMounted(async () => {
+const apiCol = async (baseCurrency) => {
   try {
-    currenciesHistorocal.value = await historicalCurrencies();
+    currenciesHistorocal.value = await historicalCurrencies(baseCurrency);
     currencies.value = await actualCurrencies();
-    currenciesСoefficient.value = await latestCurrencies();
+    currenciesСoefficient.value = await latestCurrencies(baseCurrency);
     if (
       !currenciesHistorocal.value ||
       !currencies.value ||
       !currenciesСoefficient.value
     ) {
       errTooManyRequests.value = true;
+    } else {
+      errTooManyRequests.value = false;
     }
   } catch (e) {
     console.log(e);
   }
+};
+
+onMounted(async () => {
+  await apiCol();
 });
 
 const exchangeСlculation = (key) => {
@@ -60,13 +66,7 @@ const baseCurrencyEvent = () => {
 const baseCurrencyChange = async (key) => {
   baseCurrency.value = key;
   baseCurrencyClose.value = true;
-  try {
-    currenciesHistorocal.value = await historicalCurrencies(baseCurrency.value);
-    currencies.value = await actualCurrencies();
-    currenciesСoefficient.value = await latestCurrencies(baseCurrency.value);
-  } catch (e) {
-    console.log(e);
-  }
+  await apiCol(baseCurrency.value);
 };
 </script>
 
@@ -96,7 +96,10 @@ const baseCurrencyChange = async (key) => {
     <section class="main__currencies currencies">
       <template v-for="[key, value] in Object.entries(currencies)" :key="key">
         <div
-          v-if="value.name.toLowerCase().includes(filter.toLowerCase()) && key !== baseCurrency"
+          v-if="
+            value.name.toLowerCase().includes(filter.toLowerCase()) &&
+            key !== baseCurrency
+          "
           class="currencies__item"
         >
           <div class="currencies__name">
