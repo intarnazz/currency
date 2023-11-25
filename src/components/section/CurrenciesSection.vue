@@ -52,6 +52,7 @@ const baseCurrencyEvent = () => {
 };
 const baseCurrencyChange = async (key) => {
   baseCurrency.value = key;
+  baseCurrencyClose.value = true
   try {
     currenciesHistorocal.value = await historicalCurrencies(baseCurrency.value);
     currencies.value = await actualCurrencies();

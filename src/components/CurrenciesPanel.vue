@@ -8,6 +8,7 @@ const emits = defineEmits();
 
 const baseCurrencyChange = (key) => {
   currencieActiv.value = key
+  popupClose.value = true
   emits("change-currency", key);
 };
 

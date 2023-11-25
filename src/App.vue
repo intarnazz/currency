@@ -48,5 +48,5 @@ onMounted(async () => {
 </template>
 
 <style lang="sass">
-
+@import "./sass/style.sass"
 </style>
