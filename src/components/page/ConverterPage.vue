@@ -1,19 +1,23 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { actualCurrencies, latestCurrencies } from "../../api/api.js";
+import PopupComponents from "../PopupComponents.vue";
 
 const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
 const currenciesСoefficient = ref("");
 const currencies = ref("");
+const currenciesObj = ref("");
 const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencieConvert = ref("USD");
+const popupClose = ref(true);
 
 onMounted(async () => {
   try {
     currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
     console.log(currenciesСoefficient.value);
-    currencies.value = Object.entries(await actualCurrencies());
+    currenciesObj.value = await actualCurrencies();
+    currencies.value = Object.entries(currenciesObj.value);
     for (let i of SELECTED_CURRENCIES) {
       let rut = 0;
       for (let j of currencies.value) {
@@ -49,6 +53,30 @@ const currenciesReverse = async () => {
   currencieConvert.value = save;
   currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
 };
+const CurrencyChange = async (key) => {
+  for (let i of currencies.value.slice(0, 4)) {
+    if (i[0] === key) {
+      currencieActiv.value = key;
+    }
+  }
+  let rut = 4
+  for (let i of currencies.value.slice(4)) {
+    if (i[0] === key) {
+      currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
+      currencieActiv.value = key;
+      currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
+    }
+    rut++
+  }
+};
+const choice = () => {
+  console.log("choice - ", popupClose.value);
+  if (popupClose.value) {
+    popupClose.value = false;
+  } else {
+    popupClose.value = true;
+  }
+};
 </script>
 
 <template>
@@ -66,7 +94,12 @@ const currenciesReverse = async () => {
           >
             {{ key }}
           </li>
-          <li class="traid-section__list-item">Выбор...</li>
+          <li @click="choice()" class="traid-section__list-item">Выбор...</li>
+          <PopupComponents
+            @change-currency="CurrencyChange"
+            :currencies="currenciesObj"
+            :class="{ popup__close: popupClose }"
+          />
         </ul>
         <div class="traid-section__input-wrapper">
           <input
@@ -125,6 +158,7 @@ const currenciesReverse = async () => {
     flex-direction: column
     gap: 1em
   &__list
+    user-select: none
     display: flex
   &__list-item
     transition: .4s
@@ -141,6 +175,12 @@ const currenciesReverse = async () => {
   &__currency:focus
     outline: none
     -webkit-appearance: none
+
+.popup
+  top: 30dvh
+  left: 191px
+  &__close
+    display: none
 .focus
   background-color: $aColorHover
 </style>

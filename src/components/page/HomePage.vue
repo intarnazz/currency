@@ -80,24 +80,6 @@ const baseCurrencyChange = async (key) => {
         <i> Too Many Requests!</i>
       </span>
 
-      <!-- <div
-        :class="{ popup__close: baseCurrencyClose }"
-        class="all-currencies__popup popup"
-      >
-        <div
-          v-for="[key] in Object.entries(currencies)"
-          :key="key"
-          class="all-currencies-item"
-        >
-          <button
-            @click="baseCurrencyChange(key)"
-            class="all-currencies__button button"
-          >
-            {{ key }}
-          </button>
-        </div>
-      </div> -->
-
       <PopupComponents
         @change-currency="baseCurrencyChange"
         :currencies="currencies"
@@ -184,10 +166,6 @@ const baseCurrencyChange = async (key) => {
     color: $aColorHover
 
 .popup
-    position: absolute
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6)
-    background-color: $main
-    border-radius: 15px
     top: 5.5dvh
     &__close
         display: none

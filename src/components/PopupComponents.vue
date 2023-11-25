@@ -49,7 +49,6 @@ const baseCurrencyChange = (key) => {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.6)
     background-color: $main
     border-radius: 15px
-    top: 5.5dvh
     &__close
         display: none
 </style>
