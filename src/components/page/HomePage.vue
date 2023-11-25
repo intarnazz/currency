@@ -5,6 +5,7 @@ import {
   actualCurrencies,
   latestCurrencies,
 } from "../../api/api.js";
+import PopupComponents from "../PopupComponents.vue";
 
 const currenciesHistorocal = ref("");
 const currencies = ref("");
@@ -55,13 +56,14 @@ const baseCurrencyChange = async (key) => {
     currenciesHistorocal.value = await historicalCurrencies(baseCurrency.value);
     currencies.value = await actualCurrencies();
     currenciesСoefficient.value = await latestCurrencies(baseCurrency.value);
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
   console.log(currenciesHistorocal.value);
   console.log(currencies.value);
   console.log(currenciesСoefficient.value);
 };
+
 </script>
 
 <template>
@@ -78,7 +80,7 @@ const baseCurrencyChange = async (key) => {
         <i> Too Many Requests!</i>
       </span>
 
-      <div
+      <!-- <div
         :class="{ popup__close: baseCurrencyClose }"
         class="all-currencies__popup popup"
       >
@@ -94,7 +96,13 @@ const baseCurrencyChange = async (key) => {
             {{ key }}
           </button>
         </div>
-      </div>
+      </div> -->
+
+      <PopupComponents
+        @change-currency="baseCurrencyChange"
+        :currencies="currencies"
+        :class="{ popup__close: baseCurrencyClose }"
+      />
     </div>
     <form action="">
       <input v-model="filter" type="text" />
