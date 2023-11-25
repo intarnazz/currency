@@ -42,7 +42,7 @@ const currencieActivchange = async (key) => {
         <div class="traid-section__text">У меня есть</div>
         <CurrenciesPanel
           @change-currency="currencieActivchange"
-          :currencieActiv="currencieActiv"
+          :currencieActivProps="currencieActiv"
         />
         <div class="traid-section__input-wrapper">
           <input
@@ -65,7 +65,7 @@ const currencieActivchange = async (key) => {
         <div class="traid-section__text">Хочу получить</div>
         <CurrenciesPanel
           @change-currency="currencieConvertchange"
-          :currencieActiv="currencieConvert"
+          :currencieActivProps="currencieConvert"
         />
         <div class="traid-section__input-wrapper">
           <p class="traid-section__currency">

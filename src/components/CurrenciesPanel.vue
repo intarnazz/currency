@@ -2,7 +2,7 @@
 import PopupComponents from "./PopupComponents.vue";
 import { actualCurrencies } from "../api/api.js";
 import { defineProps, defineEmits, ref, onMounted } from "vue";
-const props = defineProps(["currencieActiv"]);
+const props = defineProps(["currencieActivProps"]);
 const emits = defineEmits();
 
 
@@ -15,7 +15,7 @@ const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
 const currencies = ref("");
 const currenciesObj = ref("");
 const popupClose = ref(true);
-const currencieActiv = ref(props.currencieActiv);
+const currencieActiv = ref(props.currencieActivProps);
 
 onMounted(async () => {
   try {
@@ -25,7 +25,7 @@ onMounted(async () => {
       let rut = 0;
       for (let j of currencies.value) {
         const selectedIndex = j[0].indexOf(i);
-        if (j[0] === currencieActiv) {
+        if (j[0] === currencieActiv.value) {
           currencieActiv.value = j[0];
         }
         if (selectedIndex > -1) {
@@ -72,7 +72,7 @@ const CurrencyChange = async (key) => {
       @click="baseCurrencyChange(key)"
       v-for="[key] in currencies.slice(0, 4)"
       :key="key"
-      :class="{ focus: currencieActiv === key }"
+      :class="{ focus: currencieActivProps === key }"
       class="traid-section__list-item"
     >
       {{ key }}
