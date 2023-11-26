@@ -55,7 +55,11 @@ export async function status() {
   return await fetch(`${API_URL}status?apikey=${API_KEY}`)
     .then((response) => response.json())
     .then((json) => {
-      return json.quotas.month;
+      if (json.message === "API rate limit exceeded for 'quota'") {
+        return false;
+      } else {
+        return json.quotas.month;
+      }
     })
     .catch((e) => {
       err.value = true;

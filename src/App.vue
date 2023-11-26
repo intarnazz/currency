@@ -6,8 +6,17 @@ import { status } from "./api/api.js";
 const userStatus = ref("");
 const err = ref(false);
 
+const statusCol = async () => {
+  const res = await status()
+  if (!res) {
+    err.value = true
+    return null
+  }
+  return res
+}
+
 onMounted(async () => {
-  userStatus.value = await status();
+  userStatus.value = await statusCol();
 });
 </script>
 
