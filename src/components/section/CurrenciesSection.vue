@@ -6,7 +6,6 @@ import {
   latestCurrencies,
 } from "../../api/api.js";
 import PopupComponents from "../PopupComponents.vue";
-
 const currenciesHistorocal = ref("");
 const currencies = ref("");
 const currenciesСoefficient = ref("");
@@ -178,7 +177,7 @@ const baseCurrencyChange = async (key) => {
     padding: 0
     background: none
   &__button_main
-    color: $test
+    color: $textColor
     background: linear-gradient(to right, red, green)
     font-weight: 700
     font-size: 21px
