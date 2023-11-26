@@ -5,7 +5,7 @@ const BASE_CURRENCY = import.meta.env.VITE_BASE_CURRENCY;
 
 export async function historicalCurrencies(baseCurrency = BASE_CURRENCY) {
   console.log(baseCurrency);
-  return fetch(
+  return await fetch(
     `${API_URL}historical?date=${DATE_HISTORICAL}&base_currency=${baseCurrency}&apikey=${API_KEY}`
   )
     .then((response) => response.json())
@@ -21,7 +21,7 @@ export async function historicalCurrencies(baseCurrency = BASE_CURRENCY) {
     });
 }
 export async function actualCurrencies() {
-  return fetch(`${API_URL}currencies?&apikey=${API_KEY}`)
+  return await fetch(`${API_URL}currencies?&apikey=${API_KEY}`)
     .then((response) => response.json())
     .then((json) => {
       if (json.message === "API rate limit exceeded for 'quota'") {
@@ -35,7 +35,7 @@ export async function actualCurrencies() {
     });
 }
 export async function latestCurrencies(baseCurrency = BASE_CURRENCY) {
-  return fetch(
+  return await fetch(
     `${API_URL}latest?base_currency=${baseCurrency}&apikey=${API_KEY}`
   )
     .then((response) => response.json())
@@ -48,5 +48,16 @@ export async function latestCurrencies(baseCurrency = BASE_CURRENCY) {
     })
     .catch((e) => {
       console.log(e);
+    });
+}
+
+export async function status() {
+  return await fetch(`${API_URL}status?apikey=${API_KEY}`)
+    .then((response) => response.json())
+    .then((json) => {
+      return json.quotas.month;
+    })
+    .catch((e) => {
+      err.value = true;
     });
 }

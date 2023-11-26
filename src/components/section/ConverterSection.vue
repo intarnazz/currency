@@ -8,6 +8,7 @@ const iHave = ref(5000);
 const currencieActiv = ref(import.meta.env.VITE_BASE_CURRENCY);
 const currencieConvert = ref(import.meta.env.VITE_SECOND_CURRENCY);
 const tooManyRequests = ref(false);
+const loading = ref(true);
 
 const latestCurrenciesCol = async () => {
   const res = await latestCurrencies(currencieActiv.value);
@@ -23,6 +24,7 @@ onMounted(async () => {
   try {
     currenciesСoefficient.value = await latestCurrenciesCol();
     console.log("latestCurrenciesCol", currenciesСoefficient.value);
+    loading.value = false;
   } catch (e) {
     console.log(e);
   }
@@ -47,7 +49,10 @@ const currencieActivchange = async (key) => {
 </script>
 
 <template>
-  <div class="main">
+  <n-space v-if="loading">
+    <n-spin size="large" />
+  </n-space>
+  <div v-else class="main">
     <div v-if="tooManyRequests" class="fall">
       <i> Too Many Request! </i>
     </div>

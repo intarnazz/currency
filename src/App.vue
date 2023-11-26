@@ -1,20 +1,13 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const API_KEY = import.meta.env.VITE_API_KEY
-const API_URL = import.meta.env.VITE_API_URL
+import { status } from "./api/api.js";
+
 const userStatus = ref("");
 const err = ref(false);
 
 onMounted(async () => {
-  await fetch(`${API_URL}status?apikey=${API_KEY}`)
-    .then((response) => response.json())
-    .then((json) => {
-      userStatus.value = json.quotas.month;
-    })
-    .catch((e) => {
-      err.value = true;
-    });
+  userStatus.value = await status();
 });
 </script>
 

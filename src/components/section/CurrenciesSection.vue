@@ -15,6 +15,7 @@ const errTooManyRequests = ref(false);
 const baseCurrencyClose = ref(true);
 const baseCurrency = ref("RUB");
 const deltaHisObg = ref({});
+const loading = ref(true);
 
 const apiCol = async (baseCurrency) => {
   try {
@@ -37,6 +38,7 @@ const apiCol = async (baseCurrency) => {
 
 onMounted(async () => {
   await apiCol();
+  loading.value = false;
 });
 
 const exchangeСlculation = (key) => {
@@ -71,7 +73,10 @@ const baseCurrencyChange = async (key) => {
 </script>
 
 <template>
-  <main class="main">
+  <n-space v-if="loading">
+    <n-spin size="large" />
+  </n-space>
+  <main v-else class="main">
     <div class="main__all-currencies all-currencies">
       <i>Список свех валют </i>
       <button
@@ -158,6 +163,9 @@ const baseCurrencyChange = async (key) => {
 
 .all-currencies
   position: relative
+  align-items: center
+  display: flex
+  gap: 1em
   &__popup
     width: 225px
     height: 400px
@@ -169,6 +177,12 @@ const baseCurrencyChange = async (key) => {
   &__button
     padding: 0
     background: none
+  &__button_main
+    color: $test
+    background: linear-gradient(to right, red, green)
+    font-weight: 700
+    font-size: 21px
+    padding: .2em .7em
   &__button:hover
     color: $aColorHover
 .main
