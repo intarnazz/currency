@@ -1,5 +1,5 @@
 <script setup>
-import CurrenciesSection from "../section/CurrenciesSection.vue";
+import CurrenciesSection from "../components/section/SectionCurrencies.vue";
 </script>
 
 <template>

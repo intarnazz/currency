@@ -10,7 +10,7 @@ const currencieConvert = ref(import.meta.env.VITE_SECOND_CURRENCY);
 const tooManyRequests = ref(false);
 const loading = ref(true);
 
-const latestCurrenciesCol = async () => {
+async function latestCurrenciesCol() {
   const res = await latestCurrencies(currencieActiv.value);
   if (!res) {
     tooManyRequests.value = true;
@@ -30,7 +30,7 @@ onMounted(async () => {
   }
 });
 
-const currenciesReverse = async () => {
+async function currenciesReverse() {
   console.log("currenciesReverse");
   const save = currencieActiv.value;
   currencieActiv.value = currencieConvert.value;
@@ -38,11 +38,11 @@ const currenciesReverse = async () => {
   currenciesСoefficient.value = await latestCurrenciesCol();
 };
 
-const currencieConvertchange = (key) => {
+function currencieConvertchange(key) {
   currencieConvert.value = key;
 };
 
-const currencieActivchange = async (key) => {
+async function currencieActivchange(key) {
   currencieActiv.value = key;
   currenciesСoefficient.value = await latestCurrenciesCol();
 };

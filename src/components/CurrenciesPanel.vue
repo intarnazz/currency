@@ -5,7 +5,7 @@ import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 const props = defineProps(["currencieActivProps"]);
 const emits = defineEmits();
 
-const baseCurrencyChange = (key) => {
+function baseCurrencyChange(key) {
   currencieActiv.value = key;
   popupClose.value = true;
   emits("change-currency", key);
@@ -51,7 +51,7 @@ onMounted(async () => {
   }
 });
 
-const choice = () => {
+function choice() {
   console.log("choice - ", popupClose.value);
   if (popupClose.value) {
     popupClose.value = false;
@@ -60,7 +60,7 @@ const choice = () => {
   }
 };
 
-const CurrencyChange = async (key) => {
+async function CurrencyChange(key) {
   for (let i of currencies.value.slice(0, 4)) {
     if (i[0] === key) {
       baseCurrencyChange(key);
@@ -75,7 +75,7 @@ const CurrencyChange = async (key) => {
     rut++;
   }
 };
-const ActivPropsEvent = () => {
+function ActivPropsEvent() {
   CurrencyChange(props.currencieActivProps);
 };
 

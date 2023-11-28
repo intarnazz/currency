@@ -4,7 +4,7 @@ const props = defineProps(["currencies"]);
 const emits = defineEmits();
 
 
-const baseCurrencyChange = (key) => {
+function baseCurrencyChange(key) {
   emits("change-currency", key);
 };
 </script>

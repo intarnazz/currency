@@ -16,7 +16,7 @@ const baseCurrency = ref("RUB");
 const deltaHisObg = ref({});
 const loading = ref(true);
 
-const apiCol = async (baseCurrency) => {
+async function apiCol(baseCurrency) {
   try {
     currenciesHistorocal.value = await historicalCurrencies(baseCurrency);
     currencies.value = await actualCurrencies();
@@ -33,14 +33,14 @@ const apiCol = async (baseCurrency) => {
   } catch (e) {
     console.log(e);
   }
-};
+}
 
 onMounted(async () => {
   await apiCol();
   loading.value = false;
 });
 
-const exchangeСlculation = (key) => {
+function exchangeСlculation(key) {
   const coefficient = currenciesСoefficient.value[key];
   let i = 1;
 
@@ -49,26 +49,26 @@ const exchangeСlculation = (key) => {
   }
   deltaHisObg.value[key].price = (i / coefficient).toFixed(2);
   return i;
-};
-const deltaCurrencies = (actual, historocal, key) => {
+}
+function deltaCurrencies(actual, historocal, key) {
   deltaHisObg.value[key] = {
     value: (actual - historocal).toFixed(3),
     price: null,
   };
   return deltaHisObg.value[key].value;
-};
-const baseCurrencyEvent = () => {
+}
+function baseCurrencyEvent() {
   if (baseCurrencyClose.value) {
     baseCurrencyClose.value = false;
   } else {
     baseCurrencyClose.value = true;
   }
-};
-const baseCurrencyChange = async (key) => {
+}
+async function baseCurrencyChange(key) {
   baseCurrency.value = key;
   baseCurrencyClose.value = true;
   await apiCol(baseCurrency.value);
-};
+}
 </script>
 
 <template>
