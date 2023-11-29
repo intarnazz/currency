@@ -25,7 +25,7 @@ async function apiCol(baseCurrency) {
     if (e instanceof LibError) {
       console.log("LibError в apiCol:", e.message);
       errTooManyRequests.value = true;
-    }  else {
+    } else {
       console.log(e);
     }
   }
@@ -89,8 +89,9 @@ async function baseCurrencyChange(key) {
         :class="{ popup__close: baseCurrencyClose }"
       />
     </div>
-    <form action="">
-      <input v-model="filter" type="text" />
+    <form class="filter" action="">
+      <span class="material-symbols-outlined"> search </span>
+      <input class="filter__input" v-model="filter" type="text" />
     </form>
 
     <section class="main__currencies currencies">
@@ -145,15 +146,19 @@ async function baseCurrencyChange(key) {
     flex-wrap: wrap
     gap: 1em
     &__item
-        display: flex
-        flex-direction: column
-        align-items: center
-        border: 1px $textColor solid
-        border-radius: 10px
-        width: 210px
+      cursor: pointer
+      display: flex
+      flex-direction: column
+      align-items: center
+      border: 1px $textColor solid
+      border-radius: 10px
+      width: 210px
+      transition: .1s
+    &__item:hover
+      transform: scale(1.1)
     &__currencies-сoefficient
-        display: flex
-        align-items: center
+      display: flex
+      align-items: center
 
 .all-currencies
   position: relative
@@ -183,6 +188,28 @@ async function baseCurrencyChange(key) {
   &__header-wrapper
     display: flex
     flex-direction: column
+.filter:focus,
+.filter:hover
+  outline: none
+  border: 1px $textColor solid
+
+.filter
+  border: 1px $textColor solid
+  border-radius: 10px
+  width: 200px
+  padding: 1px 0px 0px 5px
+  display: flex
+  &__input
+    padding: 0
+    width: 82%
+    border: none
+    background-color: $main
+  &__input:focus
+    outline: none
+    border: none
+  &__input:hover
+    outline: none
+    border: none
 
 
 .popup
