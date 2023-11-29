@@ -1,3 +1,5 @@
+import LibError from "@/lib/LibError.js";
+
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = import.meta.env.VITE_API_URL;
 const DATE_HISTORICAL = import.meta.env.VITE_DATE_HISTORICAL;
@@ -11,12 +13,12 @@ export async function historial(baseCurrency = BASE_CURRENCY) {
     .then((response) => response.json())
     .then((json) => {
       if (json.message === "API rate limit exceeded for 'quota'") {
-        return false;
+        throw new LibError();
       } else {
         return json.data[DATE_HISTORICAL];
       }
     })
     .catch((e) => {
-      console.log(e);
+      throw e;
     });
 }

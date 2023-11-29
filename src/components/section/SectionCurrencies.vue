@@ -2,6 +2,8 @@
 import { onMounted, ref } from "vue";
 import { historial, actualCurrencies, latestCurrencies } from "@/api/api.js";
 import PopupComponents from "../PopupComponents.vue";
+import LibError from "@/lib/LibError.js";
+
 const currenciesHistorocal = ref("");
 const currencies = ref("");
 const currenciesСoefficient = ref("");
@@ -17,17 +19,15 @@ async function apiCol(baseCurrency) {
     currenciesHistorocal.value = await historial(baseCurrency);
     currencies.value = await actualCurrencies();
     currenciesСoefficient.value = await latestCurrencies(baseCurrency);
-    if (
-      !currenciesHistorocal.value ||
-      !currencies.value ||
-      !currenciesСoefficient.value
-    ) {
-      errTooManyRequests.value = true;
-    } else {
-      errTooManyRequests.value = false;
-    }
+
+    errTooManyRequests.value = false;
   } catch (e) {
-    console.log(e);
+    if (e instanceof LibError) {
+      console.log("LibError в apiCol:", e.message);
+      errTooManyRequests.value = true;
+    }  else {
+      console.log(e);
+    }
   }
 }
 

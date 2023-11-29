@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { latestCurrencies } from "../../api/api.js";
 import CurrenciesPanel from "../CurrenciesPanel.vue";
+import LibError from "@/lib/LibError.js";
 
 const currenciesСoefficient = ref("");
 const iHave = ref(5000);
@@ -22,23 +23,21 @@ const iHaveСoefficientToFixed = computed(() =>
 );
 
 async function latestCurrenciesCol() {
-  const res = await latestCurrencies(currencieActiv.value);
-  if (!res) {
-    tooManyRequests.value = true;
-    return null;
+  try {
+    currenciesСoefficient.value = await latestCurrencies(currencieActiv.value);
+    loading.value = false;
+  } catch (e) {
+    if (e instanceof LibError) {
+      console.log("LibError в apiCol:", e.message);
+      tooManyRequests.value = true;
+    } else {
+      console.log(e);
+    }
   }
-  tooManyRequests.value = false;
-  return res;
 }
 
 onMounted(async () => {
-  try {
-    currenciesСoefficient.value = await latestCurrenciesCol();
-    console.log("latestCurrenciesCol", currenciesСoefficient.value);
-    loading.value = false;
-  } catch (e) {
-    console.log(e);
-  }
+  latestCurrenciesCol();
 });
 
 async function currenciesReverse() {
@@ -46,7 +45,7 @@ async function currenciesReverse() {
   const save = currencieActiv.value;
   currencieActiv.value = currencieConvert.value;
   currencieConvert.value = save;
-  currenciesСoefficient.value = await latestCurrenciesCol();
+  latestCurrenciesCol();
 }
 
 function currencieConvertchange(key) {
@@ -55,18 +54,18 @@ function currencieConvertchange(key) {
 
 async function currencieActivchange(key) {
   currencieActiv.value = key;
-  currenciesСoefficient.value = await latestCurrenciesCol();
+  latestCurrenciesCol();
 }
 </script>
 
 <template>
+  <div v-if="tooManyRequests" class="fall">
+    <i> Too Many Request! </i>
+  </div>
   <n-space v-if="loading">
     <n-spin size="large" />
   </n-space>
   <div v-else class="main">
-    <div v-if="tooManyRequests" class="fall">
-      <i> Too Many Request! </i>
-    </div>
     <section class="traid-section">
       <div class="traid-section__box">
         <div class="traid-section__text">У меня есть</div>

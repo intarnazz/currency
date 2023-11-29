@@ -1,22 +1,22 @@
 <script setup>
 import { onMounted, ref } from "vue";
-
 import { status } from "../../api/api.js";
+import LibError from "@/lib/LibError.js";
 
 const userStatus = ref("");
 const err = ref(false);
 
-async function statusCol() {
-  const res = await status();
-  if (!res) {
-    err.value = true;
-    return null;
-  }
-  return res;
-};
-
 onMounted(async () => {
-  userStatus.value = await statusCol();
+  try {
+    userStatus.value = await status();
+  } catch (e) {
+    if (e instanceof LibError) {
+      console.log("LibError в apiCol:", e.message);
+      err.value = true;
+    } else {
+      console.log(e);
+    }
+  }
 });
 </script>
 
