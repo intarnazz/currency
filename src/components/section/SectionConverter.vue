@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { latestCurrencies } from "../../api/api.js";
 import CurrenciesPanel from "../CurrenciesPanel.vue";
 
@@ -10,6 +10,17 @@ const currencieConvert = ref(import.meta.env.VITE_SECOND_CURRENCY);
 const tooManyRequests = ref(false);
 const loading = ref(true);
 
+const multiplicationСoefficientToFixed = computed(() =>
+  (1 * currenciesСoefficient.value[currencieConvert.value]).toFixed(2)
+);
+const divisionСoefficientToFixed = computed(() =>
+  (1 / currenciesСoefficient.value[currencieConvert.value]).toFixed(2)
+);
+
+const iHaveСoefficientToFixed = computed(() =>
+  (iHave.value * currenciesСoefficient.value[currencieConvert.value]).toFixed(2)
+);
+
 async function latestCurrenciesCol() {
   const res = await latestCurrencies(currencieActiv.value);
   if (!res) {
@@ -18,7 +29,7 @@ async function latestCurrenciesCol() {
   }
   tooManyRequests.value = false;
   return res;
-};
+}
 
 onMounted(async () => {
   try {
@@ -36,16 +47,16 @@ async function currenciesReverse() {
   currencieActiv.value = currencieConvert.value;
   currencieConvert.value = save;
   currenciesСoefficient.value = await latestCurrenciesCol();
-};
+}
 
 function currencieConvertchange(key) {
   currencieConvert.value = key;
-};
+}
 
 async function currencieActivchange(key) {
   currencieActiv.value = key;
   currenciesСoefficient.value = await latestCurrenciesCol();
-};
+}
 </script>
 
 <template>
@@ -73,7 +84,7 @@ async function currencieActivchange(key) {
           />
           <p>
             1 {{ currencieActiv }} =
-            {{ (1 * currenciesСoefficient[currencieConvert]).toFixed(2) }}
+            {{ multiplicationСoefficientToFixed }}
             {{ currencieConvert }}
           </p>
         </div>
@@ -90,11 +101,11 @@ async function currencieActivchange(key) {
         />
         <div class="traid-section__input-wrapper">
           <p class="traid-section__currency">
-            {{ (iHave * currenciesСoefficient[currencieConvert]).toFixed(2) }}
+            {{ iHaveСoefficientToFixed }}
           </p>
           <p>
             1 {{ currencieConvert }} =
-            {{ (1 / currenciesСoefficient[currencieConvert]).toFixed(2) }}
+            {{ divisionСoefficientToFixed }}
             {{ currencieActiv }}
           </p>
         </div>
