@@ -10,5 +10,5 @@ import MainLayout from "./layouts/MainLayout.vue";
 </template>
 
 <style lang="sass">
-@import "./sass/style.sass"
+@import "@/assets/css/style.sass"
 </style>

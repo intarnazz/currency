@@ -27,7 +27,6 @@ function baseCurrencyChange(key) {
 </template>
 
 <style lang="sass" scoped>
-@import "../sass/var.sass"
 
 .all-currencies
   position: relative

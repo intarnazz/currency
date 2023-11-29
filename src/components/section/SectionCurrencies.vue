@@ -143,7 +143,6 @@ async function baseCurrencyChange(key) {
 </template>
 
 <style lang="sass" scoped>
-@import "../../sass/var.sass"
 
 .currencies
     display: flex

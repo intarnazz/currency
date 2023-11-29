@@ -103,7 +103,6 @@ watch(() => props.currencieActivProps, ActivPropsEvent);
 </template>
 
 <style lang="sass" scoped>
-@import "../sass/var.sass"
 .traid-section
   &__list
     position: relative

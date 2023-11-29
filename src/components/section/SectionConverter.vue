@@ -104,7 +104,6 @@ async function currencieActivchange(key) {
 </template>
 
 <style lang="sass" scoped>
-@import "../../sass/var.sass"
 .traid-section
   display: flex
   justify-content: space-between
