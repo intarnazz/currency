@@ -1,10 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import {
-  historicalCurrencies,
-  actualCurrencies,
-  latestCurrencies,
-} from "../../api/api.js";
+import { historial, actualCurrencies, latestCurrencies } from "@/api/api.js";
 import PopupComponents from "../PopupComponents.vue";
 const currenciesHistorocal = ref("");
 const currencies = ref("");
@@ -18,7 +14,7 @@ const loading = ref(true);
 
 async function apiCol(baseCurrency) {
   try {
-    currenciesHistorocal.value = await historicalCurrencies(baseCurrency);
+    currenciesHistorocal.value = await historial(baseCurrency);
     currencies.value = await actualCurrencies();
     currenciesСoefficient.value = await latestCurrencies(baseCurrency);
     if (
