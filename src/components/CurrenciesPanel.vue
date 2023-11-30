@@ -2,6 +2,7 @@
 import PopupComponents from "./PopupComponents.vue";
 import { actualCurrencies } from "../api/api.js";
 import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
+import LibError from "@/lib/LibError.js";
 const props = defineProps(["currencieActivProps"]);
 const emits = defineEmits();
 
@@ -9,7 +10,7 @@ function baseCurrencyChange(key) {
   currencieActiv.value = key;
   popupClose.value = true;
   emits("change-currency", key);
-};
+}
 
 const SELECTED_CURRENCIES = import.meta.env.VITE_SELECTED_CURRENCIES.split(",");
 const currencies = ref("");
@@ -19,36 +20,35 @@ const currencieActiv = ref(props.currencieActivProps);
 const errTooManyRequests = ref(false);
 
 const actualCurrenciesCol = async () => {
-  const res = await actualCurrencies();
-  if (!res) {
-    errTooManyRequests.value = true;
-    return null;
+  try {
+    const res = await actualCurrencies();
+    return res;
+  } catch (e) {
+    if (e instanceof LibError) {
+      errTooManyRequests.value = true;
+    } else {
+      console.log(e);
+    }
   }
-  errTooManyRequests.value = false;
-  return res;
 };
 
 onMounted(async () => {
-  try {
-    currenciesObj.value = await actualCurrenciesCol();
-    currencies.value = Object.entries(currenciesObj.value);
-    for (let i of SELECTED_CURRENCIES) {
-      let rut = 0;
-      for (let j of currencies.value) {
-        const selectedIndex = j[0].indexOf(i);
-        if (j[0] === currencieActiv.value) {
-          currencieActiv.value = j[0];
-        }
-        if (selectedIndex > -1) {
-          currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
-        }
-        rut++;
+  currenciesObj.value = await actualCurrenciesCol();
+  currencies.value = Object.entries(currenciesObj.value);
+  for (let i of SELECTED_CURRENCIES) {
+    let rut = 0;
+    for (let j of currencies.value) {
+      const selectedIndex = j[0].indexOf(i);
+      if (j[0] === currencieActiv.value) {
+        currencieActiv.value = j[0];
       }
+      if (selectedIndex > -1) {
+        currencies.value.unshift(currencies.value.splice(rut, 1)[0]);
+      }
+      rut++;
     }
-    baseCurrencyChange(currencieActiv.value);
-  } catch (e) {
-    console.log(e);
   }
+  baseCurrencyChange(currencieActiv.value);
 });
 
 function choice() {
@@ -58,7 +58,7 @@ function choice() {
   } else {
     popupClose.value = true;
   }
-};
+}
 
 async function CurrencyChange(key) {
   for (let i of currencies.value.slice(0, 4)) {
@@ -74,10 +74,10 @@ async function CurrencyChange(key) {
     }
     rut++;
   }
-};
+}
 function ActivPropsEvent() {
   CurrencyChange(props.currencieActivProps);
-};
+}
 
 watch(() => props.currencieActivProps, ActivPropsEvent);
 </script>
