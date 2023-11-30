@@ -19,7 +19,7 @@ const popupClose = ref(true);
 const currencieActiv = ref(props.currencieActivProps);
 const errTooManyRequests = ref(false);
 
-const actualCurrenciesCol = async () => {
+async function actualCurrenciesCol() {
   try {
     const res = await actualCurrencies();
     return res;
