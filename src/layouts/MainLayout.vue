@@ -4,6 +4,7 @@ import OneHeaders from "./headers/OneHeaders.vue";
 
 <template>
   <OneHeaders />
+  <hr />
   <slot />
   <footer></footer>
 </template>
