@@ -10,7 +10,7 @@ const currenciesСoefficient = ref("");
 const filter = ref("");
 const errTooManyRequests = ref(false);
 const baseCurrencyClose = ref(true);
-const baseCurrency = ref("RUB");
+const baseCurrency = ref(import.meta.env.VITE_BASE_CURRENCY);
 const deltaHisObg = ref({});
 const loading = ref(true);
 
